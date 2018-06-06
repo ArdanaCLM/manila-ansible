@@ -1,0 +1,34 @@
+#
+#
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2018 SUSE LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+#
+
+# Environment variables for Manila client API.
+
+unset OS_DOMAIN_NAME
+export OS_IDENTITY_API_VERSION=3
+export OS_AUTH_VERSION=3
+export OS_PROJECT_NAME={{ manilainternal_project_name }}
+export OS_PROJECT_DOMAIN_NAME={{manila_keystone.default_domain_name}}
+export OS_USERNAME={{ manilainternal_user }}
+export OS_USER_DOMAIN_NAME={{ manila_keystone.default_domain_name }}
+export OS_PASSWORD={{ manilainternal_password }}
+export OS_AUTH_URL={{ manila_keystone.internal_url }}/v3
+export OS_ENDPOINT_TYPE=internalURL
+export OS_MANILA_ENDPOINT_TYPE=internal
+export OS_INTERFACE=internal
+export OS_CACERT=/etc/ssl/ca-bundle.pem

@@ -23,3 +23,4 @@ management of share types as well as share snapshots if a driver supports them.
 
 The Shared File Systems service consists of the following components:
 manila-api, manila-data, manila-scheduler, manila-share, Messaging queue
+

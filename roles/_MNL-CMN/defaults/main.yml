@@ -1,0 +1,129 @@
+#
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2018 SUSE LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+---
+
+manila_user: manila
+manila_group: manila
+mon_agent_group: mon-agent
+
+# directories
+manila_dir: /etc/manila
+manila_rootwrap_dir: /etc/manila/rootwrap.d
+manila_logs_dir: /var/log/manila
+manila_state_path: /var/lib/manila
+installation_directory: /usr/share
+manila_venv_root: /opt/stack/service
+manila_facts_dir: /etc/ansible/facts.d
+
+# logging
+manila_debug: True
+
+# recommended DEBUG for Manila
+manila_default_loglevel: DEBUG
+# recommended INFO for logstash
+manila_logstash_default_loglevel: INFO
+
+# manila defaults should take precedence
+manila_loglevel: "{{ manila_default_loglevel | default(ardana_loglevel) }}"
+manila_logstash_loglevel: "{{ manila_logstash_default_loglevel | default(ardana_loglevel) }}"
+
+#manila_keymgr_fixed_key:
+manila_control_exchange: manila
+manila_notification_driver: messaging
+manila_osapi_volume_listen: "{{ host.bind.MNL_API.internal.ip_address }}"
+manila_osapi_volume_listen_port: "{{ host.bind.MNL_API.internal.port }}"
+manila_bind_host: "{{ host.bind.MNL_API.internal.ip_address }}"
+manila_share_bind_host: "{{ host.my_network_groups.MANAGEMENT | selectattr('address') | map(attribute='address') | join('') }}"
+
+# database ssl
+manila_db_ca_file: "/etc/ssl/ca-bundle.pem"
+manila_db_ssl: >-
+    {% if MNL_API.consumes_FND_MDB.vips.private[0].use_tls -%}
+    ?ssl_ca={{ manila_db_ca_file }}
+    {% endif %}
+
+# database
+# DB password and host set by configure
+manila_db: "mysql://{{ MNL.consumes_FND_MDB.vars.accounts.manila.username }}:\
+            {{ MNL.consumes_FND_MDB.vars.accounts.manila.password | urlencode }}@\
+            {{ MNL.consumes_FND_MDB.vips.private[0].host }}/manila{{ manila_db_ssl }}"
+manila_max_overflow: 500
+manila_max_pool_size: 500
+manila_min_pool_size: 100
+
+# Keystone
+manila_keystone:
+  admin_tenant_name: "{{ KEY_API.vars.keystone_service_tenant }}"
+  admin_user: "{{ KEY_API.vars.keystone_admin_user }}"
+  admin_password: "{{ KEY_API.vars.keystone_admin_pwd | quote }}"
+  default_domain_name: "{{ KEY_API.vars.keystone_default_domain }}"
+  admin_url: "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}/v3"
+  identity_admin_url: "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}"
+  identity_v2_admin_url: "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}/v2.0"
+  region_name: "{{ MNL_API.advertises.vips.public[0].region_name }}"
+  internal_url: "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}"
+  monasca_tenant: "{{ KEY_API.vars.keystone_admin_tenant }}"
+
+manila_share_keystone:
+  admin_tenant_name: "{{ KEY_API.vars.keystone_service_tenant }}"
+  admin_user: "{{ KEY_API.vars.keystone_admin_user }}"
+  admin_password: "{{ KEY_API.vars.keystone_admin_pwd | quote }}"
+  default_domain_name: "{{ KEY_API.vars.keystone_default_domain }}"
+  admin_url: "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}/v3"
+  identity_admin_url: "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}"
+  identity_v2_admin_url: "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}/v2.0"
+  region_name: "region1"
+  internal_url: "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}"
+  monasca_tenant: "{{ KEY_API.vars.keystone_admin_tenant }}"
+
+manila_identity_admin_user: >
+    {{ MNL_API | item('consumes_KEY_API.vars.keystone_manila_user',
+                      default='manila') }}
+manila_identity_admin_password: >
+    {{ MNL_API | item('consumes_KEY_API.vars.keystone_manila_password',
+                 default='manila') }}
+
+manila_share_identity_admin_user: >
+    {{ MNL_SHR | item('consumes_KEY_API.vars.keystone_manila_user',
+                      default='manila') }}
+manila_share_identity_admin_password: >
+    {{ MNL_SHR | item('consumes_KEY_API.vars.keystone_manila_password',
+                 default='manila') }}
+
+manilainternal_user: >
+    {{ MNL_API | item('consumes_KEY_API.vars.keystone_manilainternal_user',
+                      default='manilainternal') }}
+manilainternal_password: >
+    {{ MNL_API | item('consumes_KEY_API.vars.keystone_manilainternal_password',
+                      default='manilainternal') }}
+manilainternal_project_name: >
+    {{ MNL_API | item('consumes_KEY_API.vars.keystone_manilainternal_tenant',
+                      default='manilainternal') }}
+
+# Rabbit
+manila_rabbit_hosts: "{% for x in MNL.consumes_FND_RMQ.members.private %}{{ x.host }}:\
+                      {{ x.port }}{%if not loop.last %},{% endif %}{% endfor %}"
+manila_rabbit_userid: "{{ MNL.consumes_FND_RMQ.vars.accounts.manila.username }}"
+manila_rabbit_password: "{{ MNL.consumes_FND_RMQ.vars.accounts.manila.password }}"
+manila_rabbit_use_ssl: "{{ MNL.consumes_FND_RMQ.members.private[0].use_tls }}"
+
+# Default service directories
+manila_common_conf_dir: "{{ 'manila-common' | config_dir() }}"
+manila_common_bin_dir: "{{ 'manila-common' | bin_dir }}"
+manila_common_venv_share_dir: "{{ 'manila-common' | share_dir }}/manila"
+
+manila_logging_context_formatter: oslo_log.formatters.ContextFormatter

@@ -1,0 +1,81 @@
+#
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2018 SUSE LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+---
+
+# Install Manila API
+
+- include: ../../_MNL-CMN/tasks/install.yml
+
+- name: MNL-API | install | Install Manila API dependencies
+  become: yes
+  apt: name={{ item }} install_recommends=no state=latest force=yes
+  with_items:
+    - libmysqlclient18
+  ignore_errors: True
+  when: ansible_os_family == 'Debian'
+
+- name: MNL-API | install | Update venv cache
+  install_package:
+    cache: update
+
+- name: MNL-API | install | Install Manila api, scheduler and share component
+  become: yes
+  package:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - openstack-manila-api
+    - openstack-manila-scheduler
+    - openstack-manila-share
+    - python-python-logstash
+    - python-tooz
+  when:
+    - not deployer_media_legacy_layout|bool
+
+- name: MNL-API | install | Set manila services to start on reboot
+  become: yes
+  service:
+    name: "{{ item }}"
+    enabled: yes
+  with_items: manila_component
+
+#- name: MNL-API | install | Install Manila API
+#  install_package:
+#    name: manila
+#    service: manila-api
+#    state: present
+#    activate: act_off
+#  register: ardana_notify_manila_api_venv_install
+
+#- name: MNL-API | install | Set service directories
+#  set_fact:
+#    manila_api_conf_dir: >-
+#      {{ 'manila-api' |
+#          config_dir(ardana_notify_manila_api_venv_install.version) }}
+#    manila_api_venv_share_dir: >-
+#      {{ 'manila-api' |
+#          share_dir(ardana_notify_manila_api_venv_install.version) }}/manila"
+
+#- name: MNL-API | install | Register the manila-api service
+#  setup_systemd:
+#    service: manila-api
+#    cmd: manila-api
+#    user: manila
+#    group: manila
+#    args: >
+#      --config-file {{ manila_api_conf_dir }}/manila.conf
+#  when: ardana_notify_manila_api_venv_install.changed

@@ -1,0 +1,50 @@
+#
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2018 SUSE LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+---
+#- include: ../../_MNL-CMN/tasks/_activate.yml
+
+## Restart or start Manila API
+#- name: MNL_SHR | start | Activate the latest install
+#  install_package:
+#    name: manila
+#    service: manila-api
+#    activate: act_on
+#    version: "{{ ardana_notify_manila_api_venv_install.version }}"
+#  when: not (ardana_notify_manila_api_venv_install is not defined)
+
+#- name: MNL_SHR | start | Update conf dir symlinks
+#  file:
+#    src: "{{ manila_api_conf_dir }}/{{ item.src }}"
+#    dest: "{{ item.dst }}"
+#    owner: "{{ manila_user }}"
+#    group: "{{ manila_group }}"
+#    state: link
+#  when: not (ardana_notify_manila_api_venv_install is not defined)
+#  with_items: manila_api_conf_symlinks
+
+- name: MNL_SHR | start | Restart manila-share service
+  service:
+    name: openstack-manila-share
+    state: restarted
+  register: manila_share_restarted_result
+
+- name: MNL_SHR | start | Ensure manila-share service is started
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - openstack-manila-share
