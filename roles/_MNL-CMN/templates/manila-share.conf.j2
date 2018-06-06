@@ -1,0 +1,141 @@
+{#
+#
+# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
+# (c) Copyright 2018 SUSE LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+#}
+[keystone_authtoken]
+signing_dir = /var/cache/manila
+cafile = /etc/ssl/ca-bundle.pem
+auth_uri = "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}"
+project_domain_name = "{{ KEY_API.vars.keystone_default_domain }}"
+project_name = {{ manila_share_keystone.admin_tenant_name }}
+user_domain_name = {{ manila_share_keystone.default_domain_name }}
+password = {{ manila_share_identity_admin_password }}
+username = {{ manila_share_identity_admin_user }}
+auth_url = "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}/v3"
+auth_type = password
+
+[DEFAULT]
+#log_config_append = {{ manila_api_conf_dir | dirname }}/api-logging.conf
+logging_exception_prefix = %(asctime)s.%(msecs)d TRACE %(name)s %(instance)s
+logging_debug_format_suffix = from (pid=%(process)d) %(funcName)s %(pathname)s:%(lineno)d
+logging_default_format_string = %(asctime)s.%(msecs)d %(levelname)s %(name)s %(instance)s%(message)s
+logging_context_format_string = %(asctime)s.%(msecs)d %(levelname)s %(name)s [%(request_id)s %(user_id)s %(project_id)s] %(instance)s%(message)s
+#transport_url = rabbit://stackrabbit:8a56b5eb5120d24ad567@192.168.1.141:5672/
+transport_url = rabbit://{{ manila_rabbit_userid }}:{{ manila_rabbit_password }}@{{ manila_rabbit_hosts }}/
+manila_service_keypair_name = manila-service
+enabled_share_backends = generic1
+replica_state_update_interval = 300
+lvm_share_volume_group = lvm-shares
+wsgi_keep_alive = False
+enabled_share_protocols = NFS,CIFS
+check_hash = True
+default_share_type = default
+state_path = /tmp/data/manila
+osapi_share_extension = manila.api.contrib.standard_extensions
+rootwrap_config = /etc/manila/rootwrap.conf
+#api_paste_config = {{ manila_api_conf_dir | dirname }}/api-paste.ini
+share_name_template = share-%s
+scheduler_driver = manila.scheduler.filter_scheduler.FilterScheduler
+debug = True
+auth_strategy = keystone
+my_ip = {{ manila_share_bind_host }}
+host = {{ manila_share_bind_host }}
+osapi_share_listen = 0.0.0.0
+
+[DATABASE]
+max_pool_size = 40
+connection = {{ manila_db }}
+max_overflow={{ manila_max_overflow }}
+max_pool_size={{ manila_max_pool_size }}
+min_pool_size={{ manila_min_pool_size }}
+
+[oslo_concurrency]
+lock_path = /tmp/manila/manila_locks
+
+[oslo_messaging_rabbit]
+ssl = {{ manila_rabbit_use_ssl }}
+ssl_ca_file = /etc/ssl/ca-bundle.pem
+
+[neutron]
+memcached_servers = controller:11211
+signing_dir = /var/cache/manila
+cafile = /etc/ssl/ca-bundle.pem
+auth_uri = "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}"
+project_domain_name = "{{ KEY_API.vars.keystone_default_domain }}"
+project_name = {{ manila_share_keystone.admin_tenant_name }}
+user_domain_name = {{ manila_share_keystone.default_domain_name }}
+password = {{ manila_share_keystone.admin_password }}
+username = {{ manila_share_keystone.admin_user }}
+auth_url = "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}/v3"
+auth_type = password
+
+[nova]
+memcached_servers = controller:11211
+signing_dir = /var/cache/manila
+cafile = /etc/ssl/ca-bundle.pem
+auth_uri = "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}"
+project_domain_name = "{{ KEY_API.vars.keystone_default_domain }}"
+project_name = {{ manila_share_keystone.admin_tenant_name }}
+user_domain_name = {{ manila_share_keystone.default_domain_name }}
+password = {{ manila_share_keystone.admin_password }}
+username = {{ manila_share_keystone.admin_user }}
+auth_url = "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}/v3"
+auth_type = password
+
+[cinder]
+memcached_servers = controller:11211
+signing_dir = /var/cache/manila
+cafile = /etc/ssl/ca-bundle.pem
+auth_uri = "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}"
+project_domain_name = "{{ KEY_API.vars.keystone_default_domain }}"
+project_name = {{ manila_share_keystone.admin_tenant_name }}
+user_domain_name = {{ manila_share_keystone.default_domain_name }}
+password = {{ manila_share_keystone.admin_password }}
+username = {{ manila_share_keystone.admin_user }}
+auth_url = "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}/v3"
+auth_type = password
+
+[generic1]
+admin_subnet_id = 4a617303-1d7e-4e75-92ac-1de5b71cbaaa
+admin_network_id = ce479985-3a30-4468-a40b-e3535ba0bffe
+driver_handles_share_servers = True
+service_instance_user = manila
+service_image_name = manila-service-image-master
+path_to_private_key = /opt/stack/.ssh/id_rsa
+path_to_public_key = /opt/stack/.ssh/id_rsa.pub
+share_backend_name = GENERIC1
+share_driver = manila.share.drivers.generic.GenericShareDriver
+
+[generic2]
+driver_handles_share_servers = True
+service_instance_user = manila
+service_image_name = manila-service-image-master
+path_to_private_key = /opt/stack/.ssh/id_rsa
+path_to_public_key = /opt/stack/.ssh/id_rsa.pub
+share_backend_name = GENERIC2
+share_driver = manila.share.drivers.generic.GenericShareDriver
+
+[generic3]
+driver_handles_share_servers = False
+service_instance_user =
+service_instance_password =
+share_backend_name = GENERIC3
+service_instance_name_or_id =
+service_net_name_or_ip =
+tenant_net_name_or_ip =
+share_volume_fstype = ext3
+share_driver = manila.share.drivers.generic.GenericShareDriver
