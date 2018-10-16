@@ -120,7 +120,10 @@ manila_rabbit_hosts: "{% for x in MNL.consumes_FND_RMQ.members.private %}{{ x.ho
 manila_rabbit_userid: "{{ MNL.consumes_FND_RMQ.vars.accounts.manila.username }}"
 manila_rabbit_password: "{{ MNL.consumes_FND_RMQ.vars.accounts.manila.password }}"
 manila_rabbit_use_ssl: "{{ MNL.consumes_FND_RMQ.members.private[0].use_tls }}"
-
+manila_rabbit_transport_urls: "{% for x in MNL.consumes_FND_RMQ.members.private %}\
+                               {{ manila_rabbit_userid }}:{{ manila_rabbit_password }}\
+                               @{{ x.host }}:{{ x.port }}{%if not loop.last %},\
+                               {% endif %}{% endfor %}"
 # Default service directories
 manila_common_conf_dir: "{{ 'manila-common' | config_dir() }}"
 manila_common_bin_dir: "{{ 'manila-common' | bin_dir }}"
