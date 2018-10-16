@@ -34,7 +34,7 @@ logging_exception_prefix = %(asctime)s.%(msecs)d TRACE %(name)s %(instance)s
 logging_debug_format_suffix = from (pid=%(process)d) %(funcName)s %(pathname)s:%(lineno)d
 logging_default_format_string = %(asctime)s.%(msecs)d %(levelname)s %(name)s %(instance)s%(message)s
 logging_context_format_string = %(asctime)s.%(msecs)d %(levelname)s %(name)s [%(request_id)s %(user_id)s %(project_id)s] %(instance)s%(message)s
-transport_url = rabbit://{{ manila_rabbit_userid }}:{{ manila_rabbit_password }}@{{ manila_rabbit_hosts }}/
+transport_url = rabbit://{{ manila_rabbit_transport_urls }}/
 manila_service_keypair_name = manila-service
 enabled_share_backends = generic1
 #enabled_share_backends = backendNetApp
