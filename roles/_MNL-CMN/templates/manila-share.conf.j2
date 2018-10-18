@@ -38,6 +38,7 @@ logging_context_format_string = %(asctime)s.%(msecs)d %(levelname)s %(name)s [%(
 transport_url = rabbit://{{ manila_rabbit_userid }}:{{ manila_rabbit_password }}@{{ manila_rabbit_hosts }}/
 manila_service_keypair_name = manila-service
 enabled_share_backends = generic1
+#enabled_share_backends = backendNetApp
 replica_state_update_interval = 300
 lvm_share_volume_group = lvm-shares
 wsgi_keep_alive = False
@@ -95,6 +96,7 @@ password = {{ manila_share_keystone.admin_password }}
 username = {{ manila_share_keystone.admin_user }}
 auth_url = "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}/v3"
 auth_type = password
+endpoint_type = internal
 
 [cinder]
 memcached_servers = controller:11211
@@ -112,16 +114,19 @@ auth_type = password
 [generic1]
 admin_subnet_id = 4a617303-1d7e-4e75-92ac-1de5b71cbaaa
 admin_network_id = ce479985-3a30-4468-a40b-e3535ba0bffe
-driver_handles_share_servers = True
+driver_handles_share_servers = False
 service_instance_user = manila
 service_image_name = manila-service-image-master
 path_to_private_key = /opt/stack/.ssh/id_rsa
 path_to_public_key = /opt/stack/.ssh/id_rsa.pub
 share_backend_name = GENERIC1
 share_driver = manila.share.drivers.generic.GenericShareDriver
+service_instance_name_or_id = INSTANCE_ID
+service_net_name_or_ip = INSTANCE_IP
+tenant_net_name_or_ip = INSTANCE_IP
 
 [generic2]
-driver_handles_share_servers = True
+driver_handles_share_servers = False
 service_instance_user = manila
 service_image_name = manila-service-image-master
 path_to_private_key = /opt/stack/.ssh/id_rsa
@@ -129,13 +134,11 @@ path_to_public_key = /opt/stack/.ssh/id_rsa.pub
 share_backend_name = GENERIC2
 share_driver = manila.share.drivers.generic.GenericShareDriver
 
-[generic3]
-driver_handles_share_servers = False
-service_instance_user =
-service_instance_password =
-share_backend_name = GENERIC3
-service_instance_name_or_id =
-service_net_name_or_ip =
-tenant_net_name_or_ip =
-share_volume_fstype = ext3
-share_driver = manila.share.drivers.generic.GenericShareDriver
+[backendNetApp]
+share_driver = manila.share.drivers.netapp.common.NetAppDriver
+driver_handles_share_servers = True
+share_backend_name = backendNetApp
+netapp_login = USERNAME
+netapp_password = PASSWORD
+netapp_server_hostname = HOSTNAME
+netapp_root_volume_aggregate = AGGREGATE_NAME
