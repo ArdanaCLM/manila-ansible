@@ -22,3 +22,12 @@
       manila-manage --config-file "{{ manila_api_conf_dir }}/100-manila.conf"
       db sync
   run_once_per: verb_hosts.MNL_API
+
+- name: MNL-API | db_configure | Modify manila-manage.log file attributes
+  become: yes
+  file:
+      path: "{{ manila_logs_dir }}/manila-manage.log"
+      state: touch
+      owner: "{{ manila_user }}"
+      group: "{{ manila_group }}"
+      mode: 0640
