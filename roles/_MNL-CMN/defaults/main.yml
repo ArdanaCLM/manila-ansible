@@ -58,7 +58,7 @@ manila_db_ssl: >-
 
 # database
 # DB password and host set by configure
-manila_db: "mysql://{{ MNL.consumes_FND_MDB.vars.accounts.manila.username }}:\
+manila_db: "mysql+pymysql://{{ MNL.consumes_FND_MDB.vars.accounts.manila.username }}:\
             {{ MNL.consumes_FND_MDB.vars.accounts.manila.password | urlencode }}@\
             {{ MNL.consumes_FND_MDB.vips.private[0].host }}/manila{{ manila_db_ssl }}"
 manila_max_overflow: 500
