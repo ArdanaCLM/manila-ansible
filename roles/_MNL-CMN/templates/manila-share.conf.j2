@@ -54,7 +54,7 @@ debug = True
 auth_strategy = keystone
 my_ip = {{ manila_share_bind_host }}
 host = {{ manila_share_bind_host }}
-osapi_share_listen = 0.0.0.0
+osapi_share_listen = {{ manila_share_bind_host }}
 
 [DATABASE]
 max_pool_size = 40
