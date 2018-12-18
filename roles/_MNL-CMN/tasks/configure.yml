@@ -16,51 +16,6 @@
 #
 ---
 
-#- name: _MNL-CMN | configure | Create '/var/cache/manila' directory
-#  become: yes
-#  file:
-#    path: "/var/cache/manila"
-#    owner: "{{ manila_user }}"
-#    group: "{{ manila_group }}"
-#    mode: 0700
-#    state: directory
-
-#- name: _MNL-CMN | configure | Create '{{ manila_conf_dir }}' directory
-#  become: yes
-#  file:
-#    path: "{{ manila_conf_dir }}"
-#    owner: "{{ manila_user }}"
-#    group: "{{ manila_group }}"
-#    mode: 0700
-#    state: directory
-
-#- name: _MNL-CMN | configure | Create logging directory
-#  become: yes
-#  file:
-#    path: "{{ manila_logs_dir }}"
-#    owner: "{{ manila_user }}"
-#    group: "{{ manila_group }}"
-#    mode: 0775
-#    state: directory
-
-#- name: _MNL-CMN | configure | Create rootwrap.d directory
-#  become: yes
-#  file:
-#    path: "{{ manila_rootwrap_dir }}"
-#    owner: "{{ manila_user }}"
-#    group: "{{ manila_group }}"
-#    mode: 0770
-#    state: directory
-
-#- name: _MNL-CMN | configure | Create /etc/ansible/facts.d/ on localhost
-#  become: yes
-#  delegate_to: localhost
-#  run_once: true
-#  file:
-#    path: "{{ manila_facts_dir }}"
-#    state: directory
-#    mode: 0755
-
 - name: _MNL-CMN | configure | Check for presence of group '{{ mon_agent_group }}'
   command: "grep -q {{ mon_agent_group }} /etc/group"
   ignore_errors: True
@@ -80,36 +35,3 @@
     group: "{{ manila_group }}"
     mode: 0400
   register: ardana_notify_manila_restart_required
-
-#- name: _MNL-CMN | configure | Create Manila rootwrap config file
-#  become: yes
-#  shell: >
-#    rsync -ciog --chmod=0440 --chown=root:root
-#    {{ manila_common_venv_share_dir }}/etc/manila/{{ item }}
-#    {{ manila_dir }}/{{ item }}
-#  register: rsync_result
-#  changed_when: 'rsync_result.stdout != ""'
-#  with_items:
-#    - rootwrap.conf
-
-#- name: _MNL-CMN | configure | Create symlinks to Manila binaries
-#  become: yes
-#  file:
-#    src: "{{ manila_common_bin_dir }}/{{ item }}"
-#    dest: "/usr/local/bin/{{ item }}"
-#    owner: root
-#    group: root
-#    state: link
-#  with_items:
-#    - manila-rootwrap
-#    - manila-manage
-
-#- name: _MNL-CMN | configure | Setup manila user to allow sudo to run manila-rootwrap without password
-#  become: yes
-#  copy:
-#    src: etc/sudoers.d/manila-rootwrap
-#    dest: /etc/sudoers.d/manila-rootwrap
-#    owner: root
-#    group: root
-#    mode: 0440
-#    validate: 'visudo -cf %s'

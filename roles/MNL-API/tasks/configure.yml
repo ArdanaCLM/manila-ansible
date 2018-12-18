@@ -62,35 +62,6 @@
     mode: 0400
   register: ardana_notify_manila_api_restart_required
 
-#- name: MNL-API | configure | Generate "{{ manila_api_conf_dir }}"/api-logging.conf
-#  become: yes
-#  template:
-#    src: api-logging.conf.j2
-#    dest: "{{ manila_api_conf_dir | dirname }}/api-logging.conf"
-#    owner: "{{ manila_user }}"
-#    group: "{{ manila_group }}"
-#    mode: 0400
-#  register: ardana_notify_manila_api_restart_required
-
-#- name: MNL-API | configure | Generate "{{ manila_api_conf_dir }}"/api_audit_map.conf
-#  become: yes
-#  template:
-#    src: api_audit_map.conf.j2
-#    dest: "{{ manila_api_conf_dir }}/api_audit_map.conf"
-#    owner: "{{ manila_user }}"
-#    group: "{{ manila_group }}"
-#    mode: 0400
-#  register: ardana_notify_manila_api_restart_required
-
-#- name: MNL-API | configure | Generate "{{ manila_api_conf_dir }}"/policy.json
-#  become: yes
-#  template:
-#    src: policy.json.j2
-#    dest: "{{ manila_api_conf_dir }}/policy.json"
-#    owner: "{{ manila_user }}"
-#    group: "{{ manila_group }}"
-#    mode: 0400
-
 - name: MNL-API | configure | Modify manila-api.log file attributes
   become: yes
   file:

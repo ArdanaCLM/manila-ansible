@@ -42,28 +42,3 @@
 - name: _MNL-CMN | install | Update venv cache
   install_package:
     cache: update
-
-# no real service here, just apply the venv
-#- name: _MNL-CMN | install | Install Manila Common
-#  install_package:
-#    name: manila
-#    service: manila-common
-#    state: present
-#    activate: act_off
-#  register: manila_common_install_result
-
-#- name: _MNL-CMN | install | Set service directories
-#  set_fact:
-#    manila_common_bin_dir: >-
-#      {{ 'manila-common' |
-#          bin_dir(manila_common_install_result.version) | dirname }}/usr/bin
-#    manila_common_venv_share_dir: >-
-#      {{ 'manila-common' |
-#          share_dir(manila_common_install_result.version) | dirname }}
-#
-#- name: _MNL-CMN | install | Change Owner and Group
-#  file:
-#    path: "{{ 'manila-common' | share_dir(manila_common_install_result.version)  | dirname | dirname }}"
-#    owner: "{{ manila_user }}"
-#    group: "{{ manila_group }}"
-#    recurse: true

@@ -42,8 +42,6 @@
     - openstack-manila-share
     - python-python-logstash
     - python-mysql
-  when:
-    - not deployer_media_legacy_layout|bool
 
 - name: MNL-SHR | install | Set manila services to start on reboot
   become: yes
@@ -52,30 +50,3 @@
     enabled: yes
   with_items:
     - openstack-manila-share
-
-#- name: MNL-SHR | install | Install Manila Share
-#  install_package:
-#    name: manila
-#    service: manila-api
-#    state: present
-#    activate: act_off
-#  register: ardana_notify_manila_api_venv_install
-
-#- name: MNL-SHR | install | Set service directories
-#  set_fact:
-#    manila_api_conf_dir: >-
-#      {{ 'manila-api' |
-#          config_dir(ardana_notify_manila_api_venv_install.version) }}
-#    manila_api_venv_share_dir: >-
-#      {{ 'manila-api' |
-#          share_dir(ardana_notify_manila_api_venv_install.version) }}/manila"
-
-#- name: MNL-SHR | install | Register the manila-api service
-#  setup_systemd:
-#    service: manila-api
-#    cmd: manila-api
-#    user: manila
-#    group: manila
-#    args: >
-#      --config-file {{ manila_api_conf_dir }}/manila.conf
-#  when: ardana_notify_manila_api_venv_install.changed

@@ -15,8 +15,6 @@
 # under the License.
 #
 ---
-#- name: MNL-API | stop | Stop Manila API service
-#  service: name=openstack-manila-api state=stopped
 
 - name: MNL-API | stop | Stop Manila API service
   service:

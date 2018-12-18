@@ -15,8 +15,6 @@
 # under the License.
 #
 ---
-#- name: MNL-SHR | stop | Stop Manila Share service
-#  service: name=openstack-manila-share state=stopped
 
 - name: MNL-SHR | stop | Stop Manila Share service
   service:

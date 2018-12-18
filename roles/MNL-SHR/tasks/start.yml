@@ -15,26 +15,6 @@
 # under the License.
 #
 ---
-#- include: ../../_MNL-CMN/tasks/_activate.yml
-
-## Restart or start Manila API
-#- name: MNL_SHR | start | Activate the latest install
-#  install_package:
-#    name: manila
-#    service: manila-api
-#    activate: act_on
-#    version: "{{ ardana_notify_manila_api_venv_install.version }}"
-#  when: not (ardana_notify_manila_api_venv_install is not defined)
-
-#- name: MNL_SHR | start | Update conf dir symlinks
-#  file:
-#    src: "{{ manila_api_conf_dir }}/{{ item.src }}"
-#    dest: "{{ item.dst }}"
-#    owner: "{{ manila_user }}"
-#    group: "{{ manila_group }}"
-#    state: link
-#  when: not (ardana_notify_manila_api_venv_install is not defined)
-#  with_items: manila_api_conf_symlinks
 
 - name: MNL_SHR | start | Restart manila-share service
   service:
