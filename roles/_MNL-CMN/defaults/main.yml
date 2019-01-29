@@ -63,7 +63,6 @@ manila_db: "mysql+pymysql://{{ MNL.consumes_FND_MDB.vars.accounts.manila.usernam
             {{ MNL.consumes_FND_MDB.vips.private[0].host }}/manila{{ manila_db_ssl }}"
 manila_max_overflow: 500
 manila_max_pool_size: 500
-manila_min_pool_size: 100
 
 # Keystone
 manila_keystone:
