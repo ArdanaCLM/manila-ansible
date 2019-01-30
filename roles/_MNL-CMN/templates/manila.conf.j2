@@ -27,6 +27,11 @@ username = {{ manila_identity_admin_user }}
 auth_url = "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}/v3"
 auth_type = password
 service_token_roles_required = true
+memcached_servers: "{% for x in MNL.consumes_FND_MEM.members.private %}{{ x.host }}:{{ x.port }}{%if
+ not loop.last %},{% endif %}{% endfor %}"
+memcache_secret_key: "{{ MNL.consumes_FND_MEM.vars.memcached.manila.secret_key | quote }}"
+memcache_security_strategy = ENCRYPT
+memcache_pool_socket_timeout = 1
 
 [DEFAULT]
 #log_config_append = {{ manila_api_conf_dir | dirname }}/api-logging.conf
@@ -71,7 +76,6 @@ ssl = {{ manila_rabbit_use_ssl }}
 ssl_ca_file = /etc/ssl/ca-bundle.pem
 
 [neutron]
-memcached_servers = controller:11211
 cafile = /etc/ssl/ca-bundle.pem
 www_authenticate_uri = "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}"
 project_domain_name = "{{ KEY_API.vars.keystone_default_domain }}"
@@ -83,7 +87,6 @@ auth_url = "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}/v3"
 auth_type = password
 
 [nova]
-memcached_servers = controller:11211
 cafile = /etc/ssl/ca-bundle.pem
 www_authenticate_uri = "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}"
 project_domain_name = "{{ KEY_API.vars.keystone_default_domain }}"
@@ -95,7 +98,6 @@ auth_url = "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}/v3"
 auth_type = password
 
 [cinder]
-memcached_servers = controller:11211
 cafile = /etc/ssl/ca-bundle.pem
 www_authenticate_uri = "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}"
 project_domain_name = "{{ KEY_API.vars.keystone_default_domain }}"
