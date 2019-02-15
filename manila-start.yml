@@ -26,7 +26,7 @@
 - hosts: MNL-SHR
   become: yes
   roles:
-    - MNL-API
+    - MNL-SHR
   tasks:
     - include: roles/MNL-SHR/tasks/start.yml
 
