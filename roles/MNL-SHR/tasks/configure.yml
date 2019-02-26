@@ -16,16 +16,6 @@
 #
 ---
 
-- name: MNL-SHR | configure | Generate "{{ manila_api_conf_dir }}"/manila.conf
-  become: yes
-  template:
-    src: api-manila.conf.j2
-    dest: "{{ manila_api_conf_dir }}/100-manila.conf"
-    owner: "{{ manila_user }}"
-    group: "{{ manila_group }}"
-    mode: 0400
-  register: ardana_notify_manila_share_restart_required
-
 - name: MNL-SHR | configure  | Copy manila client env file
   template:
     src: "{{ item }}"
