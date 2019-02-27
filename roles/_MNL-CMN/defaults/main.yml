@@ -32,9 +32,7 @@ manila_facts_dir: /etc/ansible/facts.d
 # logging
 manila_debug: True
 
-# recommended DEBUG for Manila
-manila_default_loglevel: DEBUG
-# recommended INFO for logstash
+manila_default_loglevel: INFO
 manila_logstash_default_loglevel: INFO
 
 # manila defaults should take precedence
