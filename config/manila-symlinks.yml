@@ -19,3 +19,4 @@
 symlinks:
   "manila/manila.conf.j2": roles/_MNL-CMN/templates/manila.conf.j2
   "manila/policy.json.j2": "roles/MNL-API/templates/policy.json.j2"
+  "manila/manila-logging.conf.j2": "roles/_MNL-CMN/templates/manila-logging.conf.j2"
