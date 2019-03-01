@@ -30,6 +30,7 @@ manila_service_group_name: "{{ verb_hosts.MNL_SHR }}"
 # Default service directories
 #manila_api_conf_dir: "{{ 'manila-api' | config_dir() }}"
 manila_api_conf_dir: "/etc/manila/manila.conf.d"
+manila_share_conf_dir: "/etc/manila/manila-share.conf.d"
 manila_api_venv_share_dir: "{{ 'manila-api' | share_dir() }}/manila"
 
 # Files that need to be symlinked from versioned conf dir to
@@ -38,7 +39,7 @@ manila_api_venv_share_dir: "{{ 'manila-api' | share_dir() }}/manila"
 #  - { dst: '{{ manila_dir }}/manila.conf', src: 'manila.conf' }
 
 # Manila SHR auditing settings
-manila_api_audit_enable: "{{ MNL.audit.enabled }}"
+manila_share_audit_enable: "{{ MNL.audit.enabled }}"
 manila_audit_log_base_location: "{{ MNL.audit.dir }}"
 manila_audit_notification_driver: log
 
