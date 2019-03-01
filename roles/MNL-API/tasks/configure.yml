@@ -69,7 +69,7 @@
     dest: "{{ manila_api_conf_dir | dirname }}/api-logging.conf"
     owner: "{{ manila_user }}"
     group: "{{ manila_group }}"
-    mode: 0400
+    mode: 0600
   register: ardana_notify_manila_api_restart_required
 
 - name: MNL-API | configure | Modify manila-api.log file attributes
