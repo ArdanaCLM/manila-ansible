@@ -33,4 +33,9 @@
   changed_when: False
   register: manila_systemctl_status_result
 
+- name: _MNL-CMN | _service_status | Report status
+  fail:
+    msg: "FAILED as {{ item.item }} is not running."
+  when: item.rc != 0
+  with_items: manila_systemctl_status_result.results
 
