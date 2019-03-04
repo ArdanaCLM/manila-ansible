@@ -28,6 +28,7 @@ manila_state_path: /var/lib/manila
 installation_directory: /usr/share
 manila_venv_root: /opt/stack/service
 manila_facts_dir: /etc/ansible/facts.d
+manila_home_dir: /var/lib/manila
 
 # logging
 manila_debug: True

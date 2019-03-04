@@ -48,7 +48,7 @@ wsgi_keep_alive = False
 enabled_share_protocols = NFS,CIFS
 check_hash = True
 #default_share_type = default
-state_path = /tmp/data/manila
+state_path = {{ manila_home_dir }}
 osapi_share_extension = manila.api.contrib.standard_extensions
 rootwrap_config = /etc/manila/rootwrap.conf
 api_paste_config = {{ manila_api_conf_dir | dirname }}/api-paste.ini
@@ -67,7 +67,7 @@ max_overflow={{ manila_max_overflow }}
 max_pool_size={{ manila_max_pool_size }}
 
 [oslo_concurrency]
-lock_path = /tmp/manila/manila_locks
+lock_path = {{ manila_home_dir }}/manila_locks
 
 [oslo_messaging_rabbit]
 ssl = {{ manila_rabbit_use_ssl }}

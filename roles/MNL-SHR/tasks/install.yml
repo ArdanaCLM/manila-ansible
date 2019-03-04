@@ -18,8 +18,6 @@
 
 # Install Manila Share
 
-- include: ../../_MNL-CMN/tasks/install.yml
-
 - name: MNL-SHR | install | Install Manila Share dependencies
   become: yes
   apt: name={{ item }} install_recommends=no state=latest force=yes
@@ -42,6 +40,8 @@
     - openstack-manila-share
     - python-python-logstash
     - python-mysql
+
+- include: ../../_MNL-CMN/tasks/install.yml
 
 - name: MNL-SHR | install | Set manila services to start on reboot
   become: yes

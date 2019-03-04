@@ -18,8 +18,6 @@
 
 # Install Manila API
 
-- include: ../../_MNL-CMN/tasks/install.yml
-
 - name: MNL-API | install | Install Manila API dependencies
   become: yes
   apt: name={{ item }} install_recommends=no state=latest force=yes
@@ -43,6 +41,8 @@
     - openstack-manila-share
     - python-python-logstash
     - python-tooz
+
+- include: ../../_MNL-CMN/tasks/install.yml
 
 - name: MNL-API | install | Set manila services to start on reboot
   become: yes
