@@ -39,9 +39,7 @@ manila_api_venv_share_dir: "{{ 'manila-api' | share_dir() }}/manila"
 #  - { dst: '{{ manila_dir }}/manila.conf', src: 'manila.conf' }
 
 # Manila API auditing settings
-manila_api_audit_enable: "{{ MNL.audit.enabled }}"
-manila_audit_log_base_location: "{{ MNL.audit.dir }}"
-manila_audit_notification_driver: log
+manila_api_audit_enable: "{{ manila_audit_enable }}"
 
 manila_public_endpoint: "{{ MNL_API.advertises.vips.public[0].url }}"
 

@@ -108,3 +108,8 @@ manila_common_bin_dir: "{{ 'manila-common' | bin_dir }}"
 manila_common_venv_share_dir: "{{ 'manila-common' | share_dir }}/manila"
 
 manila_logging_context_formatter: oslo_log.formatters.ContextFormatter
+
+# Manila auditing settings
+manila_audit_enable: "{{ MNL.audit.enabled }}"
+manila_audit_log_base_location: "{{ MNL.audit.dir }}"
+manila_audit_notification_driver: log

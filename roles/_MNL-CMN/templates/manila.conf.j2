@@ -69,6 +69,7 @@ max_pool_size={{ manila_max_pool_size }}
 [oslo_concurrency]
 lock_path = /tmp/manila/manila_locks
 
+{% block audit_middleware %}{% endblock audit_middleware %}
 [oslo_messaging_rabbit]
 ssl = {{ manila_rabbit_use_ssl }}
 ssl_ca_file = /etc/ssl/ca-bundle.pem
