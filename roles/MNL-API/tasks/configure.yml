@@ -18,14 +18,13 @@
 
 - include: ../../_MNL-CMN/tasks/configure.yml
   vars:
-    manila_conf_dir: "{{ manila_api_conf_dir }}"
     manila_conf_template: ../../MNL-API/templates/api-manila.conf.j2
 
-- name: MNL-API | configure | Generate "{{ manila_api_conf_dir }}"/manila.conf
+- name: MNL-API | configure | Generate "{{ manila_conf_dir }}"/100-manila.conf
   become: yes
   template:
     src: api-manila.conf.j2
-    dest: "{{ manila_api_conf_dir }}/100-manila.conf"
+    dest: "{{ manila_conf_dir }}/100-manila.conf"
     owner: "{{ manila_user }}"
     group: "{{ manila_group }}"
     mode: 0400
@@ -52,21 +51,21 @@
   with_items:
     - manila.osrc
 
-- name: MNL-API | configure | Generate "{{ manila_api_conf_dir }}"/api-paste.ini
+- name: MNL-API | configure | Generate api-paste.ini
   become: yes
   template:
     src: api-paste.ini.j2
-    dest: "{{ manila_api_conf_dir | dirname }}/api-paste.ini"
+    dest: "{{ manila_conf_dir | dirname }}/api-paste.ini"
     owner: "{{ manila_user }}"
     group: "{{ manila_group }}"
     mode: 0400
   register: ardana_notify_manila_api_restart_required
 
-- name: MNL-API | configure | Generate "{{ manila_api_conf_dir }}"/api-logging.conf
+- name: MNL-API | configure | Generate api-logging.conf
   become: yes
   template:
     src: api-logging.conf.j2
-    dest: "{{ manila_api_conf_dir | dirname }}/api-logging.conf"
+    dest: "{{ manila_conf_dir | dirname }}/api-logging.conf"
     owner: "{{ manila_user }}"
     group: "{{ manila_group }}"
     mode: 0600
