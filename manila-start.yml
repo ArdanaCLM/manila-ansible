@@ -17,7 +17,6 @@
 ---
 
 - hosts: MNL-API
-  become: yes
   roles:
     - MNL-API
   tasks:
@@ -25,36 +24,7 @@
 
 #Note: manila-share-start.yml is run as part of manila-reconfigure.yml
 
-#- hosts: MNL-SCH
-#  become: yes
-#  roles:
-#    - MNL-SCH
-#  tasks:
-#    - include: roles/MNL-SCH/tasks/start.yml
-
-#- hosts: MNL-VOL
-#  become: yes
-#  roles:
-#    - MNL-VOL
-#  tasks:
-#    - include: roles/MNL-VOL/tasks/start.yml
-
-#- hosts: MNL-BCK
-#  become: yes
-#  roles:
-#    - MNL-BCK
-#  tasks:
-#    - include: roles/MNL-BCK/tasks/start.yml
-
-#- hosts: MNL-VOL:NOV-CMP
-#  become: yes
-#  roles:
-#    - MNL-SVC
-#  tasks:
-#    - include: roles/MNL-SVC/tasks/start.yml
-
 # Mark variable for clearing from fact cache
-#- hosts: MNL-API:MNL-BCK:MNL-SCH:MNL-VOL
 - hosts: MNL-API
   roles:
     - _MNL-CMN

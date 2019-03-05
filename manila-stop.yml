@@ -17,36 +17,13 @@
 ---
 
 - hosts: MNL-API
-  become: yes
   roles:
     - MNL-API
   tasks:
     - include: roles/MNL-API/tasks/stop.yml
 
 - hosts: MNL-API
-  become: yes
   roles:
     - MNL-SHR
   tasks:
     - include: roles/MNL-SHR/tasks/stop.yml
-
-#- hosts: MNL-SCH
-#  become: yes
-#  roles:
-#    - MNL-SCH
-#  tasks:
-#    - include: roles/MNL-SCH/tasks/stop.yml
-
-#- hosts: MNL-VOL
-#  become: yes
-#  roles:
-#    - MNL-VOL
-#  tasks:
-#    - include: roles/MNL-VOL/tasks/stop.yml
-
-#- hosts: MNL-BCK
-#  become: yes
-#  roles:
-#    - MNL-BCK
-#  tasks:
-#    - include: roles/MNL-BCK/tasks/stop.yml
