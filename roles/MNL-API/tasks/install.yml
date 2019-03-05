@@ -28,10 +28,6 @@
   ignore_errors: True
   when: ansible_os_family == 'Debian'
 
-- name: MNL-API | install | Update venv cache
-  install_package:
-    cache: update
-
 - name: MNL-API | install | Install Manila api, scheduler and share component
   become: yes
   package:

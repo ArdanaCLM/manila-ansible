@@ -29,10 +29,6 @@
   ignore_errors: True
   when: ansible_os_family == 'Debian'
 
-- name: MNL-SHR | install | Update venv cache
-  install_package:
-    cache: update
-
 - name: MNL-SHR | install | Install Manila share component
   become: yes
   package:

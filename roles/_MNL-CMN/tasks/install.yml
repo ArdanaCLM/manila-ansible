@@ -38,7 +38,3 @@
     home: /tmp
     shell: /bin/true
   when: manila_user_chk_result|failed
-
-- name: _MNL-CMN | install | Update venv cache
-  install_package:
-    cache: update
