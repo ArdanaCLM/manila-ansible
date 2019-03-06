@@ -15,7 +15,7 @@
 #
 ---
 
-- hosts: MNL-SHR
+- hosts: MNL-API
   max_fail_percentage: 0
   become: yes
   roles:

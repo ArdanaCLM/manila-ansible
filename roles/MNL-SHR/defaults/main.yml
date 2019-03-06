@@ -21,9 +21,6 @@ ardanauser_home: "{{ ansible_env['HOME'] }}"
 manila_component:
   - openstack-manila-share
 
-manila_service_data: "{{ MNL_SHR }}"
-manila_service_group_name: "{{ verb_hosts.MNL_SHR }}"
-
 # flag to track if venv activation is required during start
 #manila_api_activate_required: false
 
@@ -41,7 +38,3 @@ manila_api_venv_share_dir: "{{ 'manila-api' | share_dir() }}/manila"
 manila_api_audit_enable: "{{ MNL.audit.enabled }}"
 manila_audit_log_base_location: "{{ MNL.audit.dir }}"
 manila_audit_notification_driver: log
-
-#manila_public_endpoint: "{{ MNL_SHR.advertises.vips.public[0].url }}"
-#manila_glance_url: "{% if MNL_SHR.consumes_GLA_SHR is defined %}{{ MNL_SHR.consumes_GLA_SHR.vips.private[0].url }}{% endif %}"
-#manila_cinder_url: "{% if MNL_SHR.consumes_CND_SHR is defined %}{{ MNL_SHR.consumes_CND_SHR.vips.private[0].url }}{% endif %}"
