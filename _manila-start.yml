@@ -16,8 +16,9 @@
 #
 ---
 
-- include: _manila-start.yml
-
-#Note: manila-share-start.yml is run as part of manila-reconfigure.yml
-
-- include: _manila-clear-cached-variable.yml
+- hosts: MNL-API
+  become: yes
+  roles:
+    - MNL-API
+  tasks:
+    - include: roles/MNL-API/tasks/start.yml

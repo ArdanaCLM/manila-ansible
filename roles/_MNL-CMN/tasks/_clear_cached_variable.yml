@@ -29,4 +29,3 @@
       Marking ardana_notify_manila_restart_required to be cleared
       from the fact cache
   when: ardana_notify_manila_restart_required is defined
-

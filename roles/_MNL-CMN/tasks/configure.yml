@@ -26,7 +26,7 @@
     mon_agent_group={{ manila_group }}
   when: manila_mon_group_chk_result|failed
 
-- name: _MNL-CMN | configure | Generate '{{ manila_conf_dir }}'/manila.conf
+- name: _MNL-CMN | configure | Generate {{ manila_conf_dir }}/100-manila.conf
   become: yes
   template:
     src: "{{ manila_conf_template | default('manila.conf.j2') }}"

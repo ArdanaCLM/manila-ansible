@@ -17,5 +17,6 @@
 ---
 
 - include: _manila-configure.yml
-- include: manila-start.yml
+- include: _manila-start.yml
 - include: manila-share-start.yml
+- include: _manila-clear-cached-variable.yml

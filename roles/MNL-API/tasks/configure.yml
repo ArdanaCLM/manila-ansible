@@ -16,19 +16,9 @@
 #
 ---
 
-- include: ../../_MNL-CMN/tasks/configure.yml
+- include: "{{ playbook_dir }}/roles/_MNL-CMN/tasks/configure.yml"
   vars:
-    manila_conf_template: ../../MNL-API/templates/api-manila.conf.j2
-
-- name: MNL-API | configure | Generate "{{ manila_conf_dir }}"/100-manila.conf
-  become: yes
-  template:
-    src: api-manila.conf.j2
-    dest: "{{ manila_conf_dir }}/100-manila.conf"
-    owner: "{{ manila_user }}"
-    group: "{{ manila_group }}"
-    mode: 0400
-  register: ardana_notify_manila_api_restart_required
+    manila_conf_template: "{{ playbook_dir }}/roles/MNL-API/templates/api-manila.conf.j2"
 
 - name: MNL-API | configure  | Copy manila client env file
   template:

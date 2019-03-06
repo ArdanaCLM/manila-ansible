@@ -16,17 +16,34 @@
 #
 ---
 
-- name: MNL_SHR | start | Restart manila-share service
+- name: MNL-SHR | start | Restart manila component services if needed
   become: yes
   service:
-    name: openstack-manila-share
+    name: "{{ item }}"
     state: restarted
-  register: manila_share_restarted_result
+  with_items: "{{ manila_component }}"
+  when: ((not (ardana_notify_manila_restart_required is not defined)) and
+         ardana_notify_manila_restart_required.changed) or
+        ((not (ardana_notify_manila_share_restart_required is not defined)) and
+         ardana_notify_manila_share_restart_required.changed)
 
-- name: MNL_SHR | start | Ensure manila-share service is started
+# Clear persisted fact state for ardana_notify_manila_share_restart_required
+# by testing it with an is defined check so that it is cleared from the
+# ansible fact cache at the end of the playbook run.
+# NOTE: stat'ing /dev/null to run an arbitrary action that generates no output
+- name: MNL-SHR | start | Clear persisted state for ardana_notify variable
+  stat:
+    path: /dev/null
+  when: ardana_notify_manila_share_restart_required is defined
+  changed_when: False
+
+# NOTE: ardana_notify_manila_restart_required is cleared by the
+# _manila-clear-cached-variable.yml playbook which is included at
+# the end of appropriate top level playbooks.
+
+- name: MNL-SHR | start | Ensure manila component services are started
   become: yes
   service:
     name: "{{ item }}"
     state: started
-  with_items:
-    - openstack-manila-share
+  with_items: "{{ manila_component }}"
