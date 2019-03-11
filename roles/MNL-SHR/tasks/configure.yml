@@ -16,15 +16,43 @@
 #
 ---
 
-- name: MNL-SHR | configure  | Copy manila client env file
+- name: MNL-SHR | configure | Generate "{{ manila_share_conf_dir }}"/manila-share.conf
+  become: yes
   template:
-    src: "{{ item }}"
-    dest: "{{ ardanauser_home }}"
-    owner: "{{ ardanauser }}"
-    group: "{{ ardanauser }}"
-    mode: "0600"
-  with_items:
-    - manila.osrc
+    src: share-manila.conf.j2
+    dest: "{{ manila_share_conf_dir }}/100-manila-share.conf"
+    owner: "{{ manila_user }}"
+    group: "{{ manila_group }}"
+    mode: 0400
+  register: ardana_notify_manila_share_restart_required
+
+- name: MNL-SHR | configure | Generate "{{ manila_share_conf_dir }}"/share-logging.conf
+  become: yes
+  template:
+    src: share-logging.conf.j2
+    dest: "{{ manila_share_conf_dir | dirname }}/share-logging.conf"
+    owner: "{{ manila_user }}"
+    group: "{{ manila_group }}"
+    mode: 0600
+  register: ardana_notify_manila_share_restart_required
+
+- name: MNL-SHR | configure | Modify manila-share.log file attributes
+  become: yes
+  file:
+    path: "{{ manila_logs_dir }}/manila-share.log"
+    state: touch
+    owner: manila
+    group: adm
+    mode: 0640
+
+- name: MNL-SHR | configure | Modify manila-share-json.log file attributes
+  become: yes
+  file:
+    path: "{{ manila_logs_dir }}/manila-share-json.log"
+    state: touch
+    owner: manila
+    group: adm
+    mode: 0640
 
 - name: MNL-SHR | configure | Create manila audit directory structure if necessary
   file:
@@ -34,7 +62,7 @@
     group: "{{ manila_group }}"
     mode: 0755
   become: yes
-  when: manila_api_audit_enable | bool
+  when: manila_share_audit_enable | bool
 
 - name: MNL-SHR | configure | Create/Modify manila audit log files
   file:
@@ -46,4 +74,4 @@
   become: yes
   with_items:
     - manila-audit.log
-  when: manila_api_audit_enable | bool
+  when: manila_share_audit_enable | bool
