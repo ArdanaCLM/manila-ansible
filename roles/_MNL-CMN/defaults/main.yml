@@ -77,30 +77,11 @@ manila_keystone:
   internal_url: "{{ MNL_API.consumes_KEY_API.vips.private[0].url }}"
   monasca_tenant: "{{ KEY_API.vars.keystone_admin_tenant }}"
 
-manila_share_keystone:
-  admin_tenant_name: "{{ KEY_API.vars.keystone_service_tenant }}"
-  admin_user: "{{ KEY_API.vars.keystone_admin_user }}"
-  admin_password: "{{ KEY_API.vars.keystone_admin_pwd | quote }}"
-  default_domain_name: "{{ KEY_API.vars.keystone_default_domain }}"
-  admin_url: "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}/v3"
-  identity_admin_url: "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}"
-  identity_v2_admin_url: "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}/v2.0"
-  region_name: "region1"
-  internal_url: "{{ MNL_SHR.consumes_KEY_API.vips.private[0].url }}"
-  monasca_tenant: "{{ KEY_API.vars.keystone_admin_tenant }}"
-
 manila_identity_admin_user: >
     {{ MNL_API | item('consumes_KEY_API.vars.keystone_manila_user',
                       default='manila') }}
 manila_identity_admin_password: >
     {{ MNL_API | item('consumes_KEY_API.vars.keystone_manila_password',
-                 default='manila') }}
-
-manila_share_identity_admin_user: >
-    {{ MNL_SHR | item('consumes_KEY_API.vars.keystone_manila_user',
-                      default='manila') }}
-manila_share_identity_admin_password: >
-    {{ MNL_SHR | item('consumes_KEY_API.vars.keystone_manila_password',
                  default='manila') }}
 
 manilainternal_user: >

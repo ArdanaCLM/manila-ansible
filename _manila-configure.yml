@@ -47,7 +47,7 @@
   tasks:
     - include: roles/MNL-API/tasks/db_configure.yml
 
-- hosts: MNL-SHR
+- hosts: MNL-API
   roles:
     - MNL-SHR
   tasks:

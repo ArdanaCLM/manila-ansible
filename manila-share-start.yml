@@ -15,7 +15,7 @@
 #
 ---
 
-- hosts: MNL-SHR
+- hosts: MNL-API
   become: yes
   roles:
     - MNL-SHR

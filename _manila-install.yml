@@ -23,7 +23,7 @@
   tasks:
     - include: roles/MNL-API/tasks/install.yml
 
-- hosts: MNL-SHR
+- hosts: MNL-API
   become: yes
   roles:
     - MNL-SHR
