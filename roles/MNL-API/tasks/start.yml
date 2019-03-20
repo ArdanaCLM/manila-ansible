@@ -16,14 +16,14 @@
 #
 ---
 
-- name: MNL-API | start | Restart manila-api service
+- name: MNL-API | start | Restart manila-api and scheduler services
   become: yes
   service:
-    name: openstack-manila-api
+    name: "{{ item }}"
     state: restarted
-  register: manila_api_restarted_result
+  with_items: manila_component
 
-- name: MNL-API | start | Ensure manila-api, scheduler and share service is started
+- name: MNL-API | start | Ensure manila-api and scheduler services are started
   become: yes
   service:
     name: "{{ item }}"
