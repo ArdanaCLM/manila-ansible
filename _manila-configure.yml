@@ -16,14 +16,7 @@
 #
 ---
 
-#- hosts: MNL-VOL:MNL-API:MNL-SCH:MNL-BCK
-#  roles:
-#    - MNL-VOL
-#  tasks:
-#    - include: roles/MNL-VOL/tasks/validate-config.yml
-
 - hosts: MNL-API
-  become: yes
   roles:
     - MNL-API
   tasks:
@@ -41,7 +34,6 @@
     - include: roles/MNL-API/tasks/configure.yml
 
 - hosts: MNL-API
-  become: yes
   roles:
     - MNL-API
   tasks:
@@ -52,24 +44,3 @@
     - MNL-SHR
   tasks:
     - include: roles/MNL-SHR/tasks/configure.yml
-
-#- hosts: MNL-SCH
-#  become: yes
-#  roles:
-#    - MNL-SCH
-#  tasks:
-#    - include: roles/MNL-SCH/tasks/configure.yml
-
-#- hosts: MNL-VOL
-#  become: yes
-#  roles:
-#    - MNL-VOL
-#  tasks:
-#    - include: roles/MNL-VOL/tasks/configure.yml
-
-#- hosts: MNL-BCK
-#  become: yes
-#  roles:
-#    - MNL-BCK
-#  tasks:
-#    - include: roles/MNL-BCK/tasks/configure.yml

@@ -17,6 +17,7 @@
 ---
 
 - name: MNL-SHR | stop | Stop Manila Share service
+  become: yes
   service:
     name: "{{ item }}"
     state: stopped

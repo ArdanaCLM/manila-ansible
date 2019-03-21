@@ -26,6 +26,7 @@
 # changed_when set to False so that ansible output reports a status
 # of ok instead of changed when the service is running
 - name: _MNL-CMN | _service_status | Check system service running
+  become: yes
   command: systemctl status "{{ item }}"
   with_items: manila_component
   ignore_errors: yes

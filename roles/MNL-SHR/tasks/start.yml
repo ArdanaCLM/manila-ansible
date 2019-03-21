@@ -17,12 +17,14 @@
 ---
 
 - name: MNL_SHR | start | Restart manila-share service
+  become: yes
   service:
     name: openstack-manila-share
     state: restarted
   register: manila_share_restarted_result
 
 - name: MNL_SHR | start | Ensure manila-share service is started
+  become: yes
   service:
     name: "{{ item }}"
     state: started

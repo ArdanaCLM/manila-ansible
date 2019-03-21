@@ -18,34 +18,9 @@
 
 - hosts: MNL-API
   max_fail_percentage: 0
-  become: yes
   roles:
     - MNL-API
   tasks:
     - include: roles/MNL-API/tasks/status.yml
 
 #Note: manila-share-status.yml is available to check manila-share status.
-
-#- hosts: MNL-SCH
-#  max_fail_percentage: 0
-#  become: yes
-#  roles:
-#    - MNL-SCH
-#  tasks:
-#    - include: roles/MNL-SCH/tasks/status.yml
-
-#- hosts: MNL-VOL
-#  max_fail_percentage: 0
-#  become: yes
-#  roles:
-#    - MNL-VOL
-#  tasks:
-#    - include: roles/MNL-VOL/tasks/status.yml
-
-#- hosts: MNL-BCK
-#  max_fail_percentage: 0
-#  become: yes
-#  roles:
-#    - MNL-BCK
-#  tasks:
-#    - include: roles/MNL-BCK/tasks/status.yml
