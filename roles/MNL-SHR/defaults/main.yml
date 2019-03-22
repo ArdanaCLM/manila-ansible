@@ -25,15 +25,7 @@ manila_component:
 #manila_api_activate_required: false
 
 # Default service directories
-#manila_api_conf_dir: "{{ 'manila-api' | config_dir() }}"
-manila_api_conf_dir: "/etc/manila/manila.conf.d"
 manila_share_conf_dir: "/etc/manila/manila-share.conf.d"
-manila_api_venv_share_dir: "{{ 'manila-api' | share_dir() }}/manila"
-
-# Files that need to be symlinked from versioned conf dir to
-# global conf dir
-#manila_api_conf_symlinks:
-#  - { dst: '{{ manila_dir }}/manila.conf', src: 'manila.conf' }
 
 # Manila SHR auditing settings
 manila_share_audit_enable: "{{ manila_audit_enable }}"

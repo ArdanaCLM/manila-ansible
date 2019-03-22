@@ -19,7 +19,7 @@
 - name: MNL-API | db_configure | Sync Manila DB (once manila.conf is set up)
   become: yes
   shell: >
-      manila-manage --config-file "{{ manila_api_conf_dir }}/100-manila.conf"
+      manila-manage --config-file "{{ manila_conf_dir }}/100-manila.conf"
       db sync
   run_once_per: verb_hosts.MNL_API
 

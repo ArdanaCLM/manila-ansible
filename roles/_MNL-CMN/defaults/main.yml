@@ -104,9 +104,7 @@ manila_rabbit_transport_urls: "{% for x in MNL.consumes_FND_RMQ.members.private 
                                @{{ x.host }}:{{ x.port }}{%if not loop.last %},\
                                {% endif %}{% endfor %}"
 # Default service directories
-manila_common_conf_dir: "{{ 'manila-common' | config_dir() }}"
-manila_common_bin_dir: "{{ 'manila-common' | bin_dir }}"
-manila_common_venv_share_dir: "{{ 'manila-common' | share_dir }}/manila"
+manila_conf_dir: "/etc/manila/manila.conf.d"
 
 manila_logging_context_formatter: oslo_log.formatters.ContextFormatter
 
