@@ -29,14 +29,22 @@ use = call:manila.api:root_app_factory
 [composite:openstack_share_api]
 use = call:manila.api.middleware.auth:pipeline_factory
 noauth = cors faultwrap http_proxy_to_wsgi sizelimit noauth api
-keystone = cors faultwrap http_proxy_to_wsgi sizelimit authtoken keystonecontext api
-keystone_nolimit = cors faultwrap http_proxy_to_wsgi sizelimit authtoken keystonecontext api
+keystone = cors faultwrap http_proxy_to_wsgi sizelimit authtoken keystonecontext
+{%- if manila_api_audit_enable | bool %} audit{% endif %}
+ api
+keystone_nolimit = cors faultwrap http_proxy_to_wsgi sizelimit authtoken keystonecontext
+{%- if manila_api_audit_enable | bool %} audit{% endif %}
+ api
 
 [composite:openstack_share_api_v2]
 use = call:manila.api.middleware.auth:pipeline_factory
 noauth = cors faultwrap http_proxy_to_wsgi sizelimit noauth apiv2
-keystone = cors faultwrap http_proxy_to_wsgi sizelimit authtoken keystonecontext apiv2
-keystone_nolimit = cors faultwrap http_proxy_to_wsgi sizelimit authtoken keystonecontext apiv2
+keystone = cors faultwrap http_proxy_to_wsgi sizelimit authtoken keystonecontext
+{%- if manila_api_audit_enable | bool %} audit{% endif %}
+ apiv2
+keystone_nolimit = cors faultwrap http_proxy_to_wsgi sizelimit authtoken keystonecontext
+{%- if manila_api_audit_enable | bool %} audit{% endif %}
+ apiv2
 
 [filter:faultwrap]
 paste.filter_factory = manila.api.middleware.fault:FaultWrapper.factory
@@ -82,3 +90,7 @@ password = {{ manila_identity_admin_password }}
 [filter:cors]
 paste.filter_factory = oslo_middleware.cors:filter_factory
 oslo_config_project = manila
+
+[filter:audit]
+paste.filter_factory = keystonemiddleware.audit:filter_factory
+audit_map_file = {{ manila_conf_dir | dirname }}/api_audit_map.conf

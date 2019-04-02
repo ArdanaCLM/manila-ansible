@@ -61,6 +61,16 @@
     mode: 0600
   register: ardana_notify_manila_api_restart_required
 
+- name: MNL-API | configure | Generate api_audit_map.conf
+  become: yes
+  template:
+    src: api_audit_map.conf.j2
+    dest: "{{ manila_conf_dir | dirname }}/api_audit_map.conf"
+    owner: "{{ manila_user }}"
+    group: "{{ manila_group }}"
+    mode: 0600
+  register: ardana_notify_manila_api_restart_required
+
 - name: MNL-API | configure | Modify manila-api.log file attributes
   become: yes
   file:
