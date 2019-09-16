@@ -21,7 +21,7 @@
   service:
     name: "{{ item }}"
     state: restarted
-  with_items: "{{ manila_component }}"
+  with_items: "{{ manila_api_components }}"
   when: ((not (ardana_notify_manila_restart_required is not defined)) and
          ardana_notify_manila_restart_required.changed) or
         ((not (ardana_notify_manila_api_restart_required is not defined)) and
@@ -46,4 +46,4 @@
   service:
     name: "{{ item }}"
     state: started
-  with_items: "{{ manila_component }}"
+  with_items: "{{ manila_api_components }}"

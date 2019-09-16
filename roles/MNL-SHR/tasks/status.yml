@@ -16,5 +16,9 @@
 #
 ---
 
-- include: ../../_MNL-CMN/tasks/_service_status.yml
+- include: ../../_MNL-CMN/tasks/check_shares_enabled.yml
 
+- include: ../../_MNL-CMN/tasks/_service_status.yml
+  vars:
+    manila_components: "{{ manila_share_components }}"
+  when: manila_shares_enabled | bool

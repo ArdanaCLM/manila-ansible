@@ -1,6 +1,5 @@
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
-# (c) Copyright 2018 SUSE LLC
+# (c) Copyright 2019 SUSE LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -16,16 +15,15 @@
 #
 ---
 
-ardanauser : "{{ ansible_env['USER'] }}"
-ardanauser_home: "{{ ansible_env['HOME'] }}"
-manila_share_components:
-  - openstack-manila-share
+# NOTE: even though this task list is included in a play with the role
+# pulled in, sometimes the manila_component fact value is not correctly
+# set to the value specific to this role.
+- name: MNL-SHR | pre-upgrade | Ensure we (re)load role defaults.yml
+  include_vars: ../defaults/main.yml
 
-# flag to track if venv activation is required during start
-#manila_api_activate_required: false
-
-# Default service directories
-manila_share_conf_dir: "/etc/manila/manila-share.conf.d"
-
-# Manila SHR auditing settings
-manila_share_audit_enable: "{{ manila_audit_enable }}"
+- name: MNL-SHR | pre-upgrade | Disable auto restart of {{ manila_share_components }} services
+  become: yes
+  service:
+    name: "{{ item }}"
+    enabled: no
+  with_items: "{{ manila_share_components }}"

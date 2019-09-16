@@ -17,4 +17,5 @@
 ---
 
 - include: ../../_MNL-CMN/tasks/_service_status.yml
-
+  vars:
+    manila_components: "{{ manila_api_components }}"

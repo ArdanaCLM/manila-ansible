@@ -45,7 +45,7 @@
   service:
     name: "{{ item }}"
     enabled: no
-  with_items: manila_component
+  with_items: manila_api_components
 
 - name: MNL-API | install | Comment contents of default log rotation script
   become: yes

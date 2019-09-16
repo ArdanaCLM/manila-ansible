@@ -18,7 +18,7 @@
 
 ardanauser : "{{ ansible_env['USER'] }}"
 ardanauser_home: "{{ ansible_env['HOME'] }}"
-manila_component:
+manila_api_components:
   - openstack-manila-api
   - openstack-manila-scheduler
 

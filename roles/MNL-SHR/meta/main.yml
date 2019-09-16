@@ -16,5 +16,9 @@
 #
 ---
 
+# Need to ensure that defaults/main.yml is reloaded every time this role
+# is referenced.
+allow_duplicates: true
+
 dependencies:
   - role: _MNL-CMN

@@ -1,6 +1,5 @@
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
-# (c) Copyright 2018 SUSE LLC
+# (c) Copyright 2019 SUSE LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -16,9 +15,17 @@
 #
 ---
 
-- name: MNL-API | stop | Stop Manila API service
+- name: _MNL-CMN | check_shares_enabled | Check if any share backends enabled in conf
   become: yes
-  service:
-    name: "{{ item }}"
-    state: stopped
-  with_items: manila_api_components
+  command: >-
+    grep "^[[:space:]]*enabled_share_backends[[:space:]]*=[[:space:]]*[^[:space:]#].*"
+    "{{ manila_conf_dir }}/100-manila.conf"
+  changed_when: false
+  failed_when: false
+  register: manila_conf_check_shares_enabled_result
+
+- name: _MNL-CMN | check_shares_enabled | Check if any share backends enabled in conf
+  set_fact:
+    manila_shares_enabled: true
+  when:
+    - manila_conf_check_shares_enabled_result | success

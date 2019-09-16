@@ -112,3 +112,8 @@ manila_logging_context_formatter: oslo_log.formatters.ContextFormatter
 manila_audit_enable: "{{ MNL.audit.enabled }}"
 manila_audit_log_base_location: "{{ MNL.audit.dir }}"
 manila_audit_notification_driver: log
+
+# Default value for manila_shares_enabled, dynamically updated to
+# true via check_shares_enabled.yml if enabled_share_backends is
+# configured in the conf file.
+manila_shares_enabled: false

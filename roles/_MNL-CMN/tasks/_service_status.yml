@@ -19,7 +19,7 @@
 - name: _MNL-CMN | _service_status | Print service being checked
   debug:
     msg: "Running service check for {{ item }}"
-  with_items: manila_component
+  with_items: manila_components
   run_once: True
 
 # no_log set to True to suppress redundant output from systemctl
@@ -28,7 +28,7 @@
 - name: _MNL-CMN | _service_status | Check system service running
   become: yes
   command: systemctl status "{{ item }}"
-  with_items: manila_component
+  with_items: manila_components
   ignore_errors: yes
   no_log: True
   changed_when: False

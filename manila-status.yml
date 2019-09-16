@@ -22,5 +22,6 @@
     - MNL-API
   tasks:
     - include: roles/MNL-API/tasks/status.yml
+      when: (manila_upgrade_mode | default("")) != "upgrade"
 
 #Note: manila-share-status.yml is available to check manila-share status.

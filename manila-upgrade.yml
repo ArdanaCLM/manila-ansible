@@ -16,6 +16,8 @@
 #
 ---
 - include: manila-status.yml
+  vars:
+    manila_upgrade_mode: "{{ ardana_upgrade_mode | default('') }}"
 - include: _manila-install.yml
 - include: _manila-configure.yml
 - include: manila-start.yml
