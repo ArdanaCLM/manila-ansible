@@ -39,15 +39,15 @@
 
 - include: ../../_MNL-CMN/tasks/install.yml
 
-- name: MNL-SHR | install | Set manila services to start on reboot
+- name: MNL-SHR | install | Ensure manila services do not start on reboot
   become: yes
   service:
     name: "{{ item }}"
-    enabled: yes
+    enabled: no
   with_items:
     - openstack-manila-share
 
-- name: MNL-API | install | Comment contents of default log rotation script
+- name: MNL-SHR | install | Comment contents of default log rotation script
   become: yes
   shell: sed -i -e 's/^/#/' $(grep -lv "#" /etc/logrotate.d/openstack-manila)
   failed_when: false
