@@ -46,11 +46,11 @@
   when:
     - not deployer_media_legacy_layout|bool
 
-- name: MNL-API | install | Set manila services to start on reboot
+- name: MNL-API | install | Ensure manila services do not start on reboot
   become: yes
   service:
     name: "{{ item }}"
-    enabled: yes
+    enabled: no
   with_items: manila_component
 
 #- name: MNL-API | install | Install Manila API

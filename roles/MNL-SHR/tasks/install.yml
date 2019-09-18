@@ -45,11 +45,11 @@
   when:
     - not deployer_media_legacy_layout|bool
 
-- name: MNL-SHR | install | Set manila services to start on reboot
+- name: MNL-SHR | install | Ensure manila services do not start on reboot
   become: yes
   service:
     name: "{{ item }}"
-    enabled: yes
+    enabled: no
   with_items:
     - openstack-manila-share
 
