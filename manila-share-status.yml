@@ -21,3 +21,4 @@
     - MNL-SHR
   tasks:
     - include: roles/MNL-SHR/tasks/status.yml
+      when: (manila_upgrade_mode | default("")) != "upgrade"
