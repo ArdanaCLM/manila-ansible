@@ -24,6 +24,8 @@
       include: roles/MNL-API/tasks/pre-upgrade.yml
 
 - include: manila-share-status.yml
+  vars:
+    manila_upgrade_mode: "{{ ardana_upgrade_mode | default('') }}"
 
 - hosts: MNL-API
   roles:
